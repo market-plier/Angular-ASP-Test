@@ -13,7 +13,7 @@ export class HomePageComponent implements OnInit {
   myColor="white";
   datasource: MatTableDataSource<Order>
   orders: Order[];
-  displayedColumns: string[] = ['name', 'status', 'durationType', 'deadline', 'calculation', 'coefficient'];
+  displayedColumns: string[] = ['customerName', 'customerAddress', 'totalCost', 'status'];
 
   constructor(private orderService: OrderService,
               private router: Router) { }

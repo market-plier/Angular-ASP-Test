@@ -1,9 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MainPageComponent } from './Components/main-page/main-page.component';
 import { HomePageComponent } from './Components/home-page/home-page.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from "@angular/material/button";
@@ -19,15 +18,23 @@ import {MatCardModule} from "@angular/material/card";
 import { CreateOrderComponent } from './Components/create-order/create-order.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
+import { ProductsComponent } from './Components/products/products.component';
+import { CreateProductComponent } from './Components/create-product/create-product.component';
+import { CustomerComponent } from './Components/customer/customer.component';
+import { CreateCustomerComponent } from './Components/create-customer/create-customer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainPageComponent,
     HomePageComponent,
-    CreateOrderComponent
+    CreateOrderComponent,
+    ProductsComponent,
+    CreateProductComponent,
+    CustomerComponent,
+    CreateCustomerComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     NoopAnimationsModule,

@@ -1,11 +1,11 @@
 import {ProductOrders} from "./ProductOrders";
 
 export interface Product {
-  Id?: number;
-  Name?: string;
-  Category?: string;
-  Size?: string;
-  Quantity?: number;
-  Price?: number;
-  ProductOrders?: ProductOrders[];
+  id?: number;
+  name?: string;
+  productCategory?: string;
+  productSize?: string;
+  quantity?: number;
+  price?: number;
+  productOrders?: ProductOrders[];
 }
