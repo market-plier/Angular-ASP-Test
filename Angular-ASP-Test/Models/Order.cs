@@ -10,6 +10,7 @@ namespace Angular_ASP_Test.Models
         }
         public int Id { get; set; }
         public Customer Customer { get; set; }
+        public string Status { get; set; }
         public virtual ICollection<ProductOrders> ProductOrdersCollection { get; set; }
     }
 }

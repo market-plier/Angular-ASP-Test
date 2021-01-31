@@ -1,0 +1,63 @@
+<div>
+  <mat-toolbar class="mat-toolbar col-12" fxLayout="row wrap" fxLayoutAlign="space-between center">
+    <mat-card-title class="title-center col-2">Orders</mat-card-title>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <div fxLayout="row">
+        <div>
+          <button mat-icon-button>
+            Products
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-1">
+      <button class="create-btn float-right"
+              mat-icon-button
+              routerLink="create">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <div class="mat-elevation-z8">
+    <table [dataSource]="datasource" class="mat-elevation-z8" mat-table >
+      <ng-container matColumnDef="name">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Name</th>
+        <td *matCellDef="let order" mat-cell>
+          <div (click)="route(order.orderId)" [matRippleColor]="myColor" class="center" fxFlexFill
+               matRipple>
+            {{order.name}}
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th *matHeaderCellDef mat-header-cell> Status</th>
+        <td *matCellDef="let order" mat-cell> {{order.status}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="durationType">
+        <th *matHeaderCellDef mat-header-cell> Duration type</th>
+        <td *matCellDef="let order" mat-cell> {{order.durationType}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="calculation">
+        <th *matHeaderCellDef mat-header-cell> Calculation method</th>
+        <td *matCellDef="let order" mat-cell> {{order.calculationMethod}} </td>
+      </ng-container>
+      <ng-container matColumnDef="coefficient">
+        <th *matHeaderCellDef mat-header-cell> Coefficient</th>
+        <td *matCellDef="let order" mat-cell> {{order.coefficient}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="deadline">
+        <th *matHeaderCellDef mat-header-cell> Deadline</th>
+        <td *matCellDef="let order" mat-cell> {{order.deadline}} </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10,5,20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

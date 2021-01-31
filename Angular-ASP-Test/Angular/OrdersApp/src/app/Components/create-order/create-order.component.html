@@ -1,0 +1,30 @@
+<div class="p-3" fxFlex="60" fxFlexFill fxFlexOffset="20" fxLayout="column" fxLayoutAlign="center stretch">
+  <mat-card>
+    <form (ngSubmit)="add()" [formGroup]="form" fxLayout="column" fxLayoutAlign="center">
+      <mat-form-field appearance="fill">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let stat of status" value="{{stat}}">
+            {{stat}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error *ngIf="form.get('status').invalid && form.get('status').touched">
+        <small *ngIf="form.get('status').errors.required">Status is required</small>
+      </mat-error>
+      <mat-form-field appearance="fill">
+        <mat-label>Customer</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let stat of customers" value="{{stat}}">
+            {{stat}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error *ngIf="form.get('customer').invalid && form.get('customer').touched">
+        <small *ngIf="form.get('customer').errors.required">Customer is required</small>
+      </mat-error>
+      <button color="primary" mat-flat-button (click)="cancel()">Cancel</button>
+      <button [disabled]="!form.valid" color="primary" mat-flat-button type="submit">Submit</button>
+    </form>
+  </mat-card>
+</div>
