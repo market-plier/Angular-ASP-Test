@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Angular_ASP_Test.Data;
+using Angular_ASP_Test.Dto;
 using Angular_ASP_Test.Models;
+using Angular_ASP_Test.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +15,11 @@ namespace Angular_ASP_Test.Controllers
     public class OrderController : Controller
     {
         private readonly OrderDbContext _context;
-
-        public OrderController(OrderDbContext context)
+        private readonly IOrderService _orderService;
+        public OrderController(OrderDbContext context, IOrderService orderService)
         {
             _context = context;
+            _orderService = orderService;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetCOrders()
@@ -64,11 +67,9 @@ namespace Angular_ASP_Test.Controllers
             return NoContent();
         }
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(Order order)
+        public async Task<ActionResult<Order>> PostOrder([FromForm] int customerId,[FromForm] string status,[FromForm] List<ProductOrdersDto> productOrders)
         {
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
-            
+            var order = await _orderService.AddOrder(customerId, status, productOrders);
             return CreatedAtAction("GetOrder", new { id = order.Id }, order);
         }
         

@@ -64,10 +64,10 @@ namespace Angular_ASP_Test.Controllers
             return NoContent();
         }
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public  ActionResult<Product> PostProduct(Product product)
         {
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+             _context.Products.Add(product);
+             _context.SaveChanges();
 
             return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }

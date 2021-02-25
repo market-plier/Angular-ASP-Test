@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Angular_ASP_Test.Models
 {
@@ -8,8 +10,19 @@ namespace Angular_ASP_Test.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        public decimal OrderedCost { get; set; }
-        public int OrdersCount { get; set; }
+        [NotMapped] public decimal OrderedCost
+        {
+
+            get
+            {
+                return Orders.
+                    Sum(order => order.ProductOrders.Select
+                        (x => x.Product.Price * x.Quantity).Sum());
+            }
+        }
+
+        [NotMapped]
+        public int OrdersCount => Orders.Count;
         public ICollection<Order> Orders { get; set; }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Angular_ASP_Test.Data;
+using Angular_ASP_Test.Services;
+using Angular_ASP_Test.Services.impl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -39,6 +41,7 @@ namespace Angular_ASP_Test
                         builder.AllowAnyHeader();
                     });
             });
+            services.AddScoped<IOrderService, OrderService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Angular_ASP_Test", Version = "v1"});

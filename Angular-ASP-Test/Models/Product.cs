@@ -4,10 +4,6 @@ namespace Angular_ASP_Test.Models
 {
     public class Product
     {
-        public Product()
-        {
-            ProductOrdersCollection = new HashSet<ProductOrders>();
-        }
         public int Id { get; set; }
         public string Name { get; set; }
        
@@ -15,6 +11,7 @@ namespace Angular_ASP_Test.Models
         public string ProductSize { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
-        public virtual ICollection<ProductOrders> ProductOrdersCollection { get; set; }
+        public List<ProductOrders> ProductOrders{ get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 }
