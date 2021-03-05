@@ -7,5 +7,4 @@ export interface Product {
   productSize?: string;
   quantity?: number;
   price?: number;
-  productOrders?: ProductOrders[];
 }

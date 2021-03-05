@@ -1,53 +1,35 @@
-<div>
-  <mat-toolbar class="mat-toolbar col-12" fxLayout="row wrap" fxLayoutAlign="space-between center">
-    <mat-card-title class="title-center col-2">products</mat-card-title>
-          <button routerLink="/products" mat-icon-button>
-            Products
-          </button>
-
-          <button routerLink="/home" mat-icon-button>
-            Orders
-          </button>
-    <div class="col-1">
-      <button class="create-btn float-right"
-              mat-icon-button
-              routerLink="create">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-  </mat-toolbar>
-
+<div class="container">
+  <div class="col-12">
+    <button class="create-btn float-right"
+            mat-icon-button
+            routerLink="create">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
   <div class="mat-elevation-z8">
     <table [dataSource]="datasource" class="mat-elevation-z8" mat-table text-align="center">
       <ng-container matColumnDef="name">
         <th *matHeaderCellDef mat-header-cell> Name</th>
-        <td *matCellDef="let product" mat-cell>
-          <div (click)="route(product.id)" [matRippleColor]="myColor" class="center" fxFlexFill
+        <td *matCellDef="let customer" mat-cell>
+          <div (click)="route(customer.id)" [matRippleColor]="myColor" class="center" fxFlexFill
                matRipple>
-            {{product.name}}
+            {{customer.name}}
           </div>
         </td>
       </ng-container>
-      <ng-container matColumnDef="productCategory">
-        <th *matHeaderCellDef mat-header-cell> Category</th>
-        <td *matCellDef="let product" mat-cell> {{product.productCategory}} </td>
+      <ng-container matColumnDef="address">
+        <th *matHeaderCellDef mat-header-cell> Address</th>
+        <td *matCellDef="let customer" mat-cell> {{customer.address}} </td>
       </ng-container>
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="productSize">
-        <th *matHeaderCellDef mat-header-cell> Size</th>
-        <td *matCellDef="let product" mat-cell> {{product.productSize}} </td>
+      <ng-container matColumnDef="orderedCost">
+        <th *matHeaderCellDef mat-header-cell> Ordered Cost</th>
+        <td *matCellDef="let customer" mat-cell> {{customer.orderedCost}} </td>
       </ng-container>
-
-      <ng-container matColumnDef="price">
-        <th *matHeaderCellDef mat-header-cell> Price</th>
-        <td *matCellDef="let product" mat-cell> {{product.price}} </td>
+      <ng-container matColumnDef="ordersCount">
+        <th *matHeaderCellDef mat-header-cell> Orders Count</th>
+        <td *matCellDef="let customer" mat-cell> {{customer.ordersCount}} </td>
       </ng-container>
-      <ng-container matColumnDef="quantity">
-        <th *matHeaderCellDef mat-header-cell> Quantity</th>
-        <td *matCellDef="let product" mat-cell> {{product.quantity}} </td>
-      </ng-container>
-
 
       <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
       <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>

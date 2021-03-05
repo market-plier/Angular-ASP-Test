@@ -40,4 +40,13 @@ export class ProductService {
       })
     );
   }
+  deleteProduct(id : number): Observable<Product> {
+    return this.http.delete<Product>(this.orderUrl + '/' + id)
+      .pipe(
+        catchError((err) => {
+          console.log('error caught in service')
+          console.error(err);
+          return throwError(err);    //Rethrow it back to component
+        }));
+  }
 }

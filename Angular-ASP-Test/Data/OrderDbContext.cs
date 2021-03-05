@@ -11,8 +11,7 @@ namespace Angular_ASP_Test.Data
 
         public OrderDbContext(DbContextOptions<OrderDbContext> options) : base(options)
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+           
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

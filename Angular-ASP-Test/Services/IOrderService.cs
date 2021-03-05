@@ -8,6 +8,6 @@ namespace Angular_ASP_Test.Services
 {
     public interface IOrderService
     {
-        Task<Order> AddOrder(int customerId, string status, IEnumerable<ProductOrdersDto> productOrdersDto);
+        Task<Order> AddOrder(int customerId, string status,string comment, IEnumerable<ProductsDto> productsDto);
     }
 }

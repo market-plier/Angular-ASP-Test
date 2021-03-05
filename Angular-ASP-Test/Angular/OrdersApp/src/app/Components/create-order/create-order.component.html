@@ -38,12 +38,17 @@
           />
         </mat-form-field>
         <button class="create-btn float-right"
+                type="button"
                 mat-icon-button
-               (click)="addToSelectedProducts()">
+               (click)="addProduct.emit(getProductsToState())">
           <mat-icon>add</mat-icon>
         </button>
       </div>
-      <button color="primary" mat-flat-button (click)="cancel()">Cancel</button>
+      <mat-form-field class="example-full-width">
+        <mat-label>Leave a comment</mat-label>
+        <textarea matInput formControlName="comment"></textarea>
+      </mat-form-field>
+      <button color="primary" mat-flat-button type="button" (click)="cancel()">Cancel</button>
       <button [disabled]="!form.valid" color="primary" mat-flat-button type="submit">Submit</button>
     </form>
     Selected products

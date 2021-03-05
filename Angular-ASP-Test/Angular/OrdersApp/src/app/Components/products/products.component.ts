@@ -16,7 +16,7 @@ export class ProductsComponent implements OnInit {
   myColor="white";
   datasource: MatTableDataSource<Order>
   products: Product[];
-  displayedColumns: string[] = ['name', 'productCategory', 'productSize', 'price', 'quantity'];
+  displayedColumns: string[] = ['name', 'productCategory', 'productSize', 'price', 'quantity','column-delete'];
 
   constructor(private productService: ProductService,
               private router: Router) { }
@@ -39,5 +39,15 @@ export class ProductsComponent implements OnInit {
           console.error('error caught in component')
           throw error;
         }));
+  }
+  delete(id: number) {
+    this.productService.deleteProduct(id).subscribe((product) => {
+      console.log(this.products);
+      this.getProducts();
+    },
+    (error => {
+      console.error('error caught in component')
+      throw error;
+    }));
   }
 }

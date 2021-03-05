@@ -16,16 +16,41 @@ namespace Angular_ASP_Test.Controllers
     {
         private readonly OrderDbContext _context;
         private readonly IOrderService _orderService;
+
         public OrderController(OrderDbContext context, IOrderService orderService)
         {
             _context = context;
             _orderService = orderService;
         }
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetCOrders()
+        public async Task<ActionResult<IEnumerable<GetOrderDto>>> GetCOrders()
         {
-            return await _context.Orders.ToListAsync();
+            var orders = await _context.Orders
+                .Include(x => x.Customer)
+                .ThenInclude(x => x.Orders)
+                .ThenInclude(x => x.ProductOrders)
+                .ThenInclude(x=>x.Product)
+                .ToListAsync();
+            List<GetOrderDto> orderDto = new List<GetOrderDto>();
+            foreach (var order in orders)
+            {
+                orderDto.Add(new GetOrderDto
+                {
+                    Customer = new CustomerDto
+                    {
+                        Name = order.Customer.Name,
+                        Address = order.Customer.Address,
+                        OrderCount = order.Customer.OrdersCount,
+                        OrderedCost = order.Customer.OrderedCost
+                    },
+                    Id = order.Id, Status = order.Status
+                });
+            }
+
+            return orderDto;
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrder(int id)
         {
@@ -38,6 +63,7 @@ namespace Angular_ASP_Test.Controllers
 
             return order;
         }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOrder(int id, Order product)
         {
@@ -66,13 +92,17 @@ namespace Angular_ASP_Test.Controllers
 
             return NoContent();
         }
+
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder([FromForm] int customerId,[FromForm] string status,[FromForm] List<ProductOrdersDto> productOrders)
+        public async Task<ActionResult<Order>> PostOrder([FromBody] ProductOrdersDto productOrdersDto)
         {
-            var order = await _orderService.AddOrder(customerId, status, productOrders);
-            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
+            var order = await _orderService.AddOrder(productOrdersDto.CustomerId,
+                productOrdersDto.Status,
+                productOrdersDto.Comment,
+                productOrdersDto.ProductsDto);
+            return Ok();
         }
-        
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<Order>> DeleteOrder(int id)
         {
@@ -92,6 +122,5 @@ namespace Angular_ASP_Test.Controllers
         {
             return _context.Orders.Any(e => e.Id == id);
         }
-
     }
 }

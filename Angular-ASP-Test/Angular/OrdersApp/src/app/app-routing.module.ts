@@ -8,9 +8,9 @@ import {CustomerComponent} from "./Components/customer/customer.component";
 import {CreateCustomerComponent} from "./Components/create-customer/create-customer.component";
 
 const routes: Routes = [
-  {path: '',redirectTo: 'home',pathMatch: 'full'},
-  {path: 'home',component: HomePageComponent},
-  {path: 'home/create',component: CreateOrderComponent},
+  {path: '',redirectTo: 'orders',pathMatch: 'full'},
+  {path: 'orders',component: HomePageComponent},
+  {path: 'orders/create',component: CreateOrderComponent},
   {path: 'products',component: ProductsComponent},
   {path: 'products/create',component: CreateProductComponent},
   {path: 'customers',component: CustomerComponent},

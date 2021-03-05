@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Customer} from "../../models/Customer";
 import {Product} from "../../models/Product";
@@ -10,6 +10,9 @@ import {MatTableDataSource} from "@angular/material/table";
 import {ProductOrders} from "../../models/ProductOrders";
 import {ProductService} from "../../services/product.service";
 import {Order} from "../../models/Order";
+import {select, Store} from "@ngrx/store";
+import {Observable} from "rxjs";
+import {addProductOrders} from "../../state/actions/order.action";
 
 @Component({
   selector: 'app-create-order',
@@ -17,7 +20,6 @@ import {Order} from "../../models/Order";
   styleUrls: ['./create-order.component.css']
 })
 export class CreateOrderComponent implements OnInit {
-
   form: FormGroup;
   customers: Customer[];
   products: Product[];
@@ -29,14 +31,17 @@ export class CreateOrderComponent implements OnInit {
   datasource: MatTableDataSource<ProductOrders>
   displayedColumns: string[] = ['name', 'productCategory', 'productSize', 'price', 'quantity'];
 
-  constructor(private route: ActivatedRoute,
+  @Output() addProduct: EventEmitter<any> = new EventEmitter();
+
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
               private orderService: OrderService,
               private productService: ProductService,
               private customerService: CustomerServiceService,
               private location: Location) {
-    this.initForm()
+    this.initForm();
   }
-
   ngOnInit(): void {
     this.getCustomers();
 this.getProducts();
@@ -46,7 +51,9 @@ this.getProducts();
       customer: new FormControl('', Validators.required),
       status: new FormControl('', Validators.required),
       product: new FormControl('', Validators.required),
-      quantity: new FormControl('', Validators.required),
+      quantity: new FormControl('', [Validators.required,
+      Validators.min(1)]),
+      comment: new FormControl('', Validators.required)
     })
   }
   getCustomers(){
@@ -74,25 +81,37 @@ this.getProducts();
   cancel() {
     this.location.back();
   }
+  getProductsToState(){
+    const product = this.products.filter(product => product.id == this.form.get('product').value)[0];
+    const productOrders: ProductOrders ={
+      product: product,
+      quantity: this.form.get('quantity').value
+    };
+    return productOrders
+  }
     addToSelectedProducts(){
     const product = this.products.filter(product => product.id == this.form.get('product').value)[0];
       console.log(product);
       const orderProduct: ProductOrders ={
         product: product,
+        productId: this.form.get('product').value,
         quantity: this.form.get('quantity').value
-      }
+      }as ProductOrders;
       console.log(orderProduct);
         this.selectedProducts.push(orderProduct);
       this.datasource = new MatTableDataSource<ProductOrders>(this.selectedProducts)
     }
   add() {
-    const order: Order ={
-      status: this.form.get('status').value
-    };
-    order.customer = this.customers.filter(customer => customer.id == this.form.get('customer').value)[0];
-    order.productOrders = this.selectedProducts;
-    console.log(order);
-    this.orderService.addOrder(order)
+    let orders: { productId:number, quantity:number }[] = []
+    this.selectedProducts.forEach(value => orders.push({productId: value.product.id,quantity: value.quantity}) )
+    const productOrders = {
+      customerId: this.form.get('customer').value,
+      status: this.form.get('status').value,
+      productsDto: orders,
+      comment: this.form.get('comment').value
+    }
+    console.log(productOrders);
+    this.orderService.addOrder(productOrders)
       .subscribe(() => this.cancel());
   }
 }

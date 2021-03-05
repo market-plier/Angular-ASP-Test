@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Angular_ASP_Test.Models
 {
@@ -10,8 +12,15 @@ namespace Angular_ASP_Test.Models
         public string ProductCategory { get; set; }
         public string ProductSize { get; set; }
         public int Quantity { get; set; }
+        [Column(TypeName = "decimal(9,2)")]
         public decimal Price { get; set; }
         public List<ProductOrders> ProductOrders{ get; set; }
         public ICollection<Order> Orders { get; set; }
+
+        public Product()
+        {
+            ProductOrders = new List<ProductOrders>();
+            Orders = new Collection<Order>();
+        }
     }
 }

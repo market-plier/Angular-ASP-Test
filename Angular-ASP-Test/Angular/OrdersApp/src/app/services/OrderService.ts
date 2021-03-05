@@ -5,6 +5,9 @@ import {Observable, of, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Order} from "../models/Order";
+import {ProductOrders} from "../models/ProductOrders";
+import {F} from "@angular/cdk/keycodes";
+import {log} from "util";
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +44,9 @@ export class OrderService {
       }));
   }
 
-  addOrder(order: Order) : Observable<Order> {
-    return this.http.post<Order>(this.orderUrl, order, this.httpOptions).pipe(
+  addOrder(formData: any) : Observable<Order> {
+    console.log(formData);
+    return this.http.post<Order>(this.orderUrl, formData, this.httpOptions).pipe(
       catchError((err) => {
         console.log('error caught in service')
         console.error(err);

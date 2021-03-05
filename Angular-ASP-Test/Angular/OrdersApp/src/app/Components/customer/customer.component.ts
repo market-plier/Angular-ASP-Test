@@ -4,6 +4,8 @@ import {Order} from "../../models/Order";
 import {Product} from "../../models/Product";
 import {ProductService} from "../../services/product.service";
 import {Router} from "@angular/router";
+import {Customer} from "../../models/Customer";
+import {CustomerServiceService} from "../../services/customer-service.service";
 
 @Component({
   selector: 'app-customer',
@@ -14,25 +16,25 @@ export class CustomerComponent implements OnInit {
 
   myColor="white";
   datasource: MatTableDataSource<Order>
-  products: Product[];
-  displayedColumns: string[] = ['name', 'productCategory', 'productSize', 'price', 'quantity'];
+  customers: Customer[];
+  displayedColumns: string[] = ['name', 'address','ordersCount','orderedCost'];
 
-  constructor(private productService: ProductService,
+  constructor(private customerService: CustomerServiceService,
               private router: Router) { }
 
   ngOnInit(): void {
-    this.getProducts();
+    this.getCustomers();
   }
 
   route(id: number) {
     this.router.navigate([`/order/${id}`]);
   }
-  getProducts() {
-    this.productService.getProducts()
-      .subscribe((products) => {
-          this.products = products;
-          console.log(this.products);
-          this.datasource = new MatTableDataSource(products);
+  getCustomers() {
+    this.customerService.getCustomers()
+      .subscribe((customers) => {
+          this.customers = customers;
+          console.log(this.customers);
+          this.datasource = new MatTableDataSource(customers);
         },
         (error => {
           console.error('error caught in component')

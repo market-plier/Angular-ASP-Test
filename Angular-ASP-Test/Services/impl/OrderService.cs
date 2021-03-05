@@ -10,21 +10,21 @@ namespace Angular_ASP_Test.Services.impl
     public class OrderService : IOrderService
     {
         private readonly OrderDbContext _context;
-
+        
         public OrderService(OrderDbContext context)
         {
             _context = context;
         }
 
 
-        public async Task<Order> AddOrder(int customerId, string status, IEnumerable<ProductOrdersDto> productOrdersDto)
+        public async Task<Order> AddOrder(int customerId, string status,string comment, IEnumerable<ProductsDto> productsDto)
         {
-            var order = new Order {Status = status};
+            var order = new Order {Status = status,Comment = comment};
             await _context.Orders.AddAsync(order);
             var customer = await _context.Customers.FindAsync(customerId);
-            customer?.Orders.Add(order);
+            customer.Orders.Add(order);
             await _context.SaveChangesAsync();
-            foreach (var ordersDto in productOrdersDto)
+            foreach (var ordersDto in productsDto)
             {
                 var product = await _context.Products.FindAsync(ordersDto.ProductId);
                 product.ProductOrders.Add(new ProductOrders() {Quantity = ordersDto.Quantity, Order = order});

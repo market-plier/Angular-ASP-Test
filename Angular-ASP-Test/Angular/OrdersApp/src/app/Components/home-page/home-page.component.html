@@ -1,29 +1,19 @@
-<div>
-  <mat-toolbar class="mat-toolbar col-12" fxLayout="row wrap" fxLayoutAlign="space-between center">
-    <mat-card-title class="title-center col-2">Orders</mat-card-title>
-          <button routerLink="/products" mat-icon-button>
-            Products
-          </button>
-    <button routerLink="/customers" mat-icon-button>
-      Customers
+<div class="container" >
+  <div class="col-12">
+    <button class="create-btn float-right"
+            mat-icon-button
+            routerLink="create">
+      <mat-icon>add</mat-icon>
     </button>
-    <div class="col-1">
-      <button class="create-btn float-right"
-              mat-icon-button
-              routerLink="create">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-  </mat-toolbar>
-
+  </div>
   <div class="mat-elevation-z8">
-    <table [dataSource]="datasource" class="mat-elevation-z8" mat-table >
-      <ng-container matColumnDef="name">
-        <th *matHeaderCellDef mat-header-cell> Name</th>
+    <table [dataSource]="datasource" class="mat-elevation-z8" mat-table>
+      <ng-container matColumnDef="id">
+        <th *matHeaderCellDef mat-header-cell> Order number</th>
         <td *matCellDef="let order" mat-cell>
-          <div (click)="route(order.orderId)" [matRippleColor]="myColor" class="center" fxFlexFill
+          <div (click)="route(order.id)" [matRippleColor]="myColor" class="center" fxFlexFill
                matRipple>
-            {{order.name}}
+            {{order.id}}
           </div>
         </td>
       </ng-container>

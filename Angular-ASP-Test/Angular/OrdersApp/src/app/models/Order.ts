@@ -5,5 +5,4 @@ export interface Order {
   id?: number;
   customer?: Customer;
   status?: string;
-  productOrders?: ProductOrders[];
 }

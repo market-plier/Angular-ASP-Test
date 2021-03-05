@@ -5,6 +5,6 @@ export interface Customer {
   name?: string;
   address?: string;
   orderedCost?: number;
-  orderQuantity?: number;
+  ordersCount?: number;
   orders?: Order[];
 }

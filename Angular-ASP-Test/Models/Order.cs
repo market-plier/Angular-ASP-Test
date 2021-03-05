@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Angular_ASP_Test.Models
 {
@@ -9,7 +10,15 @@ namespace Angular_ASP_Test.Models
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
         public string Status { get; set; }
+        
+        public string Comment { get; set; }
         public ICollection<Product> Products { get; set; }
         public List<ProductOrders> ProductOrders { get; set; }
+
+        public Order()
+        {
+            Products = new Collection<Product>();
+            ProductOrders = new List<ProductOrders>();
+        }
     }
 }

@@ -43,6 +43,9 @@ namespace Angular_ASP_Test.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
@@ -67,7 +70,7 @@ namespace Angular_ASP_Test.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(9,2)");
 
                     b.Property<string>("ProductCategory")
                         .HasColumnType("nvarchar(max)");
