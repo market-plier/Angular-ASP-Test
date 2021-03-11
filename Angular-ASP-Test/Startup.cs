@@ -41,6 +41,7 @@ namespace Angular_ASP_Test
                         builder.AllowAnyHeader();
                     });
             });
+            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddSwaggerGen(c =>
             {

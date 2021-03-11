@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Angular_ASP_Test.Data;
 using Angular_ASP_Test.Models;
+using Angular_ASP_Test.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,11 +13,13 @@ namespace Angular_ASP_Test.Controllers
     [ApiController]
     public class ProductController : Controller
     {
+        private readonly IProductService _productService;
         private readonly OrderDbContext _context;
 
-        public ProductController(OrderDbContext context)
+        public ProductController(OrderDbContext context, IProductService productService)
         {
             _context = context;
+            _productService = productService;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
@@ -38,30 +41,8 @@ namespace Angular_ASP_Test.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
-            if (id != product.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(product).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            await _productService.UpdateProduct(id, product);
+            return Ok();
         }
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)

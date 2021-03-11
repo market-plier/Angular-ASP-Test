@@ -15,8 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Angular" />
-      <Folder Include="Angular\OrdersApp\src\app\Components" />
       <Folder Include="Controllers\" />
     </ItemGroup>
 

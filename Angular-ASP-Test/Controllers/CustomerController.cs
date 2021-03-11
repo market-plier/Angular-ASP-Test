@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Angular_ASP_Test.Data;
+using Angular_ASP_Test.Dto;
 using Angular_ASP_Test.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,21 @@ namespace Angular_ASP_Test.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
-            return await _context.Customers.ToListAsync();
+            var customers = await _context.Customers
+                .Include(x=>x.Orders)
+                .ThenInclude(x=>x.ProductOrders)
+                .ThenInclude(x=> x.Product)
+                .ToListAsync();
+            var customerDto = customers
+                .Select(customer => new CustomerDto
+                {
+                    Id = customer.Id,
+                    Name = customer.Name, 
+                    Address = customer.Address, 
+                    OrderCount = customer.OrdersCount, 
+                    OrderedCost = customer.OrderedCost
+                }).ToList();
+            return Ok(customerDto);
         }
 
         [HttpGet("{id}")]
