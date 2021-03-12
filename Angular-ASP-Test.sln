@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Angular-ASP-Test", "Angular-ASP-Test\Angular-ASP-Test.csproj", "{D6004FAC-4938-4A6A-B484-7B7D7C398FED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{13A0621F-9F2B-4322-B6CD-060C1458102D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{C7C928E7-1AE3-4CD8-AB69-5F1ECC6FCECB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{A54EF092-B67F-49A3-9872-B755780670A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{D6004FAC-4938-4A6A-B484-7B7D7C398FED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6004FAC-4938-4A6A-B484-7B7D7C398FED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6004FAC-4938-4A6A-B484-7B7D7C398FED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13A0621F-9F2B-4322-B6CD-060C1458102D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13A0621F-9F2B-4322-B6CD-060C1458102D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13A0621F-9F2B-4322-B6CD-060C1458102D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13A0621F-9F2B-4322-B6CD-060C1458102D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7C928E7-1AE3-4CD8-AB69-5F1ECC6FCECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7C928E7-1AE3-4CD8-AB69-5F1ECC6FCECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7C928E7-1AE3-4CD8-AB69-5F1ECC6FCECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7C928E7-1AE3-4CD8-AB69-5F1ECC6FCECB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A54EF092-B67F-49A3-9872-B755780670A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A54EF092-B67F-49A3-9872-B755780670A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A54EF092-B67F-49A3-9872-B755780670A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A54EF092-B67F-49A3-9872-B755780670A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

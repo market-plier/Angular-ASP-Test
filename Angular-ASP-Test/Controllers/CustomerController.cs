@@ -3,12 +3,14 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Angular_ASP_Test.Data;
-using Angular_ASP_Test.Dto;
-using Angular_ASP_Test.Models;
+using Entities.Data;
+using Entities.Dto;
+using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Repository;
+using Services;
 
 namespace Angular_ASP_Test.Controllers
 {
@@ -16,43 +18,30 @@ namespace Angular_ASP_Test.Controllers
     [ApiController]
     public class CustomerController : Controller
     {
-        private readonly OrderDbContext _context;
-
-        public CustomerController(OrderDbContext context)
+        private readonly ICustomerService _customerService;
+        public CustomerController(ICustomerService customerService)
         {
-            _context = context;
+            _customerService = customerService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        public async Task<ActionResult> GetCustomers()
         {
-            var customers = await _context.Customers
-                .Include(x=>x.Orders)
-                .ThenInclude(x=>x.ProductOrders)
-                .ThenInclude(x=> x.Product)
-                .ToListAsync();
-            var customerDto = customers
-                .Select(customer => new CustomerDto
-                {
-                    Id = customer.Id,
-                    Name = customer.Name, 
-                    Address = customer.Address, 
-                    OrderCount = customer.OrdersCount, 
-                    OrderedCost = customer.OrderedCost
-                }).ToList();
-            return Ok(customerDto);
+            var customers = await _customerService.GetCustomers();
+            return Ok(customers);
         }
-
+        public static IEnumerable<string> Task10(IEnumerable<string> stringList)
+        {
+            return stringList.GroupBy(t => t.Length).Select(t => t.OrderBy(x => x).Select(t => t.Last().ToString()).ToString());
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-
+            var customer = await _customerService.GetCustomer(id);
             if (customer == null)
             {
                 return NotFound();
             }
-
             return customer;
         }
 

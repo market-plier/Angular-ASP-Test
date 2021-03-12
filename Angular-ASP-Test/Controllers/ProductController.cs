@@ -1,11 +1,12 @@
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Angular_ASP_Test.Data;
-using Angular_ASP_Test.Models;
-using Angular_ASP_Test.Services;
+using Entities.Data;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Services;
 
 namespace Angular_ASP_Test.Controllers
 {

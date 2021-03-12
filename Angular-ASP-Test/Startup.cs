@@ -1,20 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Angular_ASP_Test.Data;
-using Angular_ASP_Test.Services;
-using Angular_ASP_Test.Services.impl;
+
+
+using Entities.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Repository;
+using Repository.impl;
+using Services;
+using Services.impl;
 
 namespace Angular_ASP_Test
 {
@@ -41,14 +38,17 @@ namespace Angular_ASP_Test
                         builder.AllowAnyHeader();
                     });
             });
+            services.AddDbContext<OrderDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("OrderDbContext"), b => b.MigrationsAssembly("Angular-ASP-Test")));
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Angular_ASP_Test", Version = "v1"});
             }); 
-            services.AddDbContext<OrderDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("OrderDbContext")));
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
