@@ -17,7 +17,7 @@ namespace Angular_ASP_Test.Controllers
     {
         private readonly IOrderService _orderService;
 
-        public OrderController(OrderDbContext context, IOrderService orderService)
+        public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
         }
@@ -29,28 +29,40 @@ namespace Angular_ASP_Test.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductOrdersDto>> GetOrder(int id)
+        public async Task<ActionResult<GetOrderForUpdateDto>> GetOrder(int id)
         {
             return await _orderService.GetOrder(id);
         }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder(int id, [FromBody] ProductOrdersDto productOrdersDto)
+        [HttpGet("get-order-id")]
+        public async Task<ActionResult<int>> GetLastOrderId()
         {
-            await _orderService.UpdateOrder(id,
-                productOrdersDto);
-            return Ok();
+            return await _orderService.GetLastOrderId();
         }
-
-        [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder([FromBody] ProductOrdersDto productOrdersDto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutOrder(int id, [FromBody] GetOrderForUpdateDto getOrderForUpdateDto)
         {
             try
             {
-              await _orderService.AddOrder(productOrdersDto.CustomerId,
-                    productOrdersDto.Status,
-                    productOrdersDto.Comment,
-                    productOrdersDto.ProductsDto);
+                await _orderService.UpdateOrder(id,
+                    getOrderForUpdateDto);
+                return Ok();
+            }
+            catch (ArgumentException e)
+            {
+                return StatusCode(400, e.Message);
+            }
+          
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Order>> PostOrder([FromBody] GetOrderForUpdateDto getOrderForUpdateDto)
+        {
+            try
+            {
+              await _orderService.AddOrder(getOrderForUpdateDto.CustomerId,
+                    getOrderForUpdateDto.Status,
+                    getOrderForUpdateDto.Comment,
+                    getOrderForUpdateDto.ProductsDto);
                 return Ok();
             }
             catch (ArgumentException e)

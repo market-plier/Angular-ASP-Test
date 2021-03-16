@@ -15,29 +15,19 @@ namespace Angular_ASP_Test.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
-        private readonly OrderDbContext _context;
-
         public ProductController(OrderDbContext context, IProductService productService)
         {
-            _context = context;
             _productService = productService;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            return await _productService.GetProducts();
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return product;
+            return await _productService.GetProduct(id);
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
@@ -48,32 +38,20 @@ namespace Angular_ASP_Test.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-             await _context.Products.AddAsync(product);
-             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+            await _productService.AddProduct(product);
+            return product;
         }
-        
+        [HttpGet("get-product-id")]
+        public async Task<ActionResult<int>> GetLastProductId()
+        {
+            return await _productService.GetLastOrderId();
+        }
         [HttpDelete("{id}")]
         public async Task<ActionResult<Product>> DeleteProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-
-            return product;
+            await _productService.DeleteProduct(id);
+            return NoContent();
         }
-
-        private bool ProductExists(int id)
-        {
-            return _context.Products.Any(e => e.Id == id);
-        }
-
     }
 
 }

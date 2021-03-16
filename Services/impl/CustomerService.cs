@@ -16,20 +16,26 @@ namespace Services.impl
         {
             _repositoryManager = repositoryManager;
         }
-
-        public Task<Customer> AddCustomer()
+        
+        public async Task AddCustomer(Customer customer)
         {
-            throw new System.NotImplementedException();
+            customer.Date = DateTime.Now;
+             _repositoryManager.Customer.AddCustomer(customer);
+             await _repositoryManager.SaveAsync();
+
         }
 
-        public Task<Customer> UpdateCustomer(int orderId, ProductOrdersDto productOrdersDto)
+        public async Task<Customer> UpdateCustomer(int customerId, Customer customer)
         {
-            throw new System.NotImplementedException();
+            customer.Id = customerId;
+          _repositoryManager.Customer.UpdateCustomer(customer);
+          await _repositoryManager.SaveAsync();
+          return customer;
         }
 
         public async Task<List<CustomerDto>> GetCustomers()
         {
-            var customers = await _repositoryManager.Customer.GetCustomersAsync();
+            var customers = await _repositoryManager.Customer.GetCustomersWithAllOrdersAndProductsAsync();
             var customerDto = customers
                 .Select(customer => new CustomerDto
                 {
@@ -37,7 +43,8 @@ namespace Services.impl
                     Name = customer.Name, 
                     Address = customer.Address, 
                     OrderCount = customer.OrdersCount, 
-                    OrderedCost = customer.OrderedCost
+                    OrderedCost = customer.OrderedCost,
+                    Date = customer.Date
                 }).ToList();
             return customerDto;
         }
@@ -49,7 +56,7 @@ namespace Services.impl
         
         public async Task DeleteCustomer(int id)
         {
-            _repositoryManager.Customer.Delete(await _repositoryManager.Customer.GetCustomerAsync(id));
+            _repositoryManager.Customer.DeleteCustomer(await _repositoryManager.Customer.GetCustomerAsync(id));
             await _repositoryManager.SaveAsync();
         }
     }

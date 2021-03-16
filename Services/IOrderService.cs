@@ -8,10 +8,11 @@ namespace Services
 {
     public interface IOrderService
     {
+        Task<int> GetLastOrderId();
         Task<Order> AddOrder(int customerId, string status,string comment, IEnumerable<ProductsDto> productsDto);
-        Task<Order> UpdateOrder(int orderId, ProductOrdersDto productOrdersDto);
+        Task<Order> UpdateOrder(int orderId, GetOrderForUpdateDto getOrderForUpdateDto);
         Task<List<GetOrderDto>> GetOrders();
-        Task<ProductOrdersDto> GetOrder(int id);
+        Task<GetOrderForUpdateDto> GetOrder(int id);
         Task DeleteOrder(int id);
     }
 }

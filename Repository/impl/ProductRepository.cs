@@ -24,9 +24,25 @@ namespace Repository.impl
             return await FindByCondition(product => product.Id == id).SingleAsync();
         }
 
-        public void UpdateProduct(Product product)
+        public void UpdateProduct(int id, Product product)
         {
+            product.Id = id;
             Update(product);
+        }
+
+        public void DeleteProduct(Product product)
+        {
+            Delete(product);
+        }
+
+        public void AddProduct(Product product)
+        {
+            Create(product);
+        }
+
+        public async Task<int> GetLastProductIdAsync()
+        {
+            return await _orderDbContext.Products.MaxAsync(product => product.Id);
         }
     }
 }

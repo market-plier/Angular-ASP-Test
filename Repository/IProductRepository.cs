@@ -6,8 +6,11 @@ namespace Repository
 {
     public interface IProductRepository
     {
-        public  Task<List<Product>> GetProductsAsync();
-        public  Task<Product> GetProductAsync(int id);
-        void Update(Product product);
+        Task<List<Product>> GetProductsAsync();
+        Task<Product> GetProductAsync(int id);
+        void UpdateProduct(int id, Product product);
+        void DeleteProduct(Product product);
+        void AddProduct(Product product);
+        Task<int> GetLastProductIdAsync();
     }
 }

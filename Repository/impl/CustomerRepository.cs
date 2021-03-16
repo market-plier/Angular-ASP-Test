@@ -13,6 +13,11 @@ namespace Repository.impl
         {
         }
 
+        public void AddCustomer(Customer customer)
+        {
+            Create(customer);
+        }
+
         public async Task<List<Customer>> GetCustomersAsync()
         {
             return await FindAll().ToListAsync();
@@ -28,7 +33,17 @@ namespace Repository.impl
 
         public async Task<Customer> GetCustomerAsync(int id)
         {
-            return await FindByCondition(Customer => Customer.Id == id).SingleAsync();
+            return await FindByCondition(customer => customer.Id == id).SingleAsync();
+        }
+
+        public void UpdateCustomer(Customer customer)
+        {
+           Update(customer);
+        }
+
+        public void DeleteCustomer(Customer customer)
+        {
+           Delete(customer);
         }
     }
 }

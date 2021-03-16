@@ -6,10 +6,11 @@ namespace Repository
 {
     public interface ICustomerRepository
     {
-        public Task<List<Customer>> GetCustomersAsync();
-        public Task<List<Customer>> GetCustomersWithAllOrdersAndProductsAsync();
-        public Task<Customer> GetCustomerAsync(int id);
-        void Update(Customer product);
-        void Delete(Customer product);
+        void AddCustomer(Customer customer);
+        Task<List<Customer>> GetCustomersAsync();
+        Task<List<Customer>> GetCustomersWithAllOrdersAndProductsAsync();
+        Task<Customer> GetCustomerAsync(int id);
+        void UpdateCustomer(Customer product);
+        void DeleteCustomer(Customer product);
     }
 }

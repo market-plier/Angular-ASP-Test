@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,6 +11,8 @@ namespace Entities.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
+        [Column(TypeName = "Date")]
+        public DateTime Date { get; set; }
         [NotMapped] public decimal OrderedCost
         {
             get

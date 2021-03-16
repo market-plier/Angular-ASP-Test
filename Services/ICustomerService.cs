@@ -7,8 +7,8 @@ namespace Services
 {
     public interface ICustomerService
     {
-        Task<Customer> AddCustomer();
-        Task<Customer> UpdateCustomer(int orderId, ProductOrdersDto productOrdersDto);
+        Task AddCustomer(Customer customer);
+        Task<Customer> UpdateCustomer(int orderId, Customer customer);
         Task<List<CustomerDto>> GetCustomers();
         Task<Customer> GetCustomer(int id);
         Task DeleteCustomer(int id);

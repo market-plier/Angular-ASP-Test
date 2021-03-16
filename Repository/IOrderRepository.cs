@@ -8,7 +8,7 @@ namespace Repository
     public interface IOrderRepository
     {
         public Task<List<Order>> GetOrdersAsync();
-
+        Task<int> GetLastOrderIdAsync();
         public Task<Order> GetOrderAsync(int id);
         public void CreateOrder(Order order);
         void UpdateOrder(Order order);

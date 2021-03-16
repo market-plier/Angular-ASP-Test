@@ -1,3 +1,5 @@
+using System;
+
 namespace Entities.Dto
 {
     public class CustomerDto
@@ -7,5 +9,6 @@ namespace Entities.Dto
         public string Address { get; set; }
         public decimal OrderedCost { get; set; }
         public int OrderCount { get; set; }
+        public DateTime Date { get; set; }
     }
 }

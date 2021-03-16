@@ -41,15 +41,16 @@ namespace Services.impl
                 }).ToList();
         }
 
-        public async Task<ProductOrdersDto> GetOrder(int id)
+        public async Task<GetOrderForUpdateDto> GetOrder(int id)
         {
             try
             {
                 var order = await _repositoryManager.Order.GetOrderWithProductOrders(id);
                 order.Customer = await _repositoryManager.Customer.GetCustomerAsync(order.CustomerId);
 
-                return new ProductOrdersDto
+                return new GetOrderForUpdateDto
                 {
+                    Date = order.Date,
                     Comment = order.Comment,
                     CustomerId = order.CustomerId,
                     Status = order.Status,
@@ -75,10 +76,15 @@ namespace Services.impl
             await _repositoryManager.SaveAsync();
         }
 
+        public async Task<int> GetLastOrderId()
+        {
+            return await _repositoryManager.Order.GetLastOrderIdAsync();
+        }
+
         public async Task<Order> AddOrder(int customerId, string status, string comment,
             IEnumerable<ProductsDto> productsDto)
         {
-            var order = new Order {Status = status, Comment = comment, CustomerId = customerId};
+            var order = new Order {Status = status, Comment = comment, CustomerId = customerId, Date = DateTime.Now};
             _repositoryManager.Order.CreateOrder(order);
             foreach (var ordersDto in productsDto)
             {
@@ -96,22 +102,27 @@ namespace Services.impl
             return order;
         }
 
-        public async Task<Order> UpdateOrder(int orderId, ProductOrdersDto productOrdersDto)
+        public async Task<Order> UpdateOrder(int orderId, GetOrderForUpdateDto getOrderForUpdateDto)
         {
             var order = await _repositoryManager.Order.GetOrderWithProductOrders(orderId);
-            order.CustomerId = productOrdersDto.CustomerId;
-            order.Comment = productOrdersDto.Comment;
-            order.Status = productOrdersDto.Status;
+            order.CustomerId = getOrderForUpdateDto.CustomerId;
+            order.Comment = getOrderForUpdateDto.Comment;
+            order.Status = getOrderForUpdateDto.Status;
             foreach (var productOrder in order.ProductOrders)
             {
                 var product = await _repositoryManager.Product.GetProductAsync(productOrder.ProductId);
                 product.Quantity += productOrder.Quantity;
                 product.ProductOrders.Remove(productOrder);
             }
+            await _repositoryManager.SaveAsync();
 
-            foreach (var ordersDto in productOrdersDto.ProductsDto)
+            foreach (var ordersDto in getOrderForUpdateDto.ProductsDto)
             {
                 var product = await _repositoryManager.Product.GetProductAsync(ordersDto.ProductId);
+                if (product.Quantity < ordersDto.Quantity)
+                {
+                    throw new ArgumentException("Available only " + product.Quantity + " of " + product.Name);
+                }
                 product.Quantity -= ordersDto.Quantity;
                 product.ProductOrders.Add(new ProductOrders
                 {

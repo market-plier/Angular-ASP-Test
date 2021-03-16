@@ -21,6 +21,11 @@ namespace Repository.impl
             return await FindAll().ToListAsync();
         }
 
+        public async Task<int> GetLastOrderIdAsync()
+        {
+            return await _orderDbContext.Orders.MaxAsync(order => order.Id);
+        }
+
         public async Task<Order> GetOrderAsync(int id)
         {
             return await FindByCondition(order => order.Id == id).SingleAsync();

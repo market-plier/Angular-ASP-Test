@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Entities.Data;
 using Entities.Dto;
@@ -30,10 +32,6 @@ namespace Angular_ASP_Test.Controllers
             var customers = await _customerService.GetCustomers();
             return Ok(customers);
         }
-        public static IEnumerable<string> Task10(IEnumerable<string> stringList)
-        {
-            return stringList.GroupBy(t => t.Length).Select(t => t.OrderBy(x => x).Select(t => t.Last().ToString()).ToString());
-        }
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
@@ -48,60 +46,31 @@ namespace Angular_ASP_Test.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
-            if (id != customer.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(customer).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _customerService.UpdateCustomer(id, customer);
+                return Ok();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (ArgumentException e)
             {
-                if (!CustomerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(400, e.Message);
             }
-
-            return NoContent();
+         
         }
         
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
-            await _context.Customers.AddAsync(customer);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
+            await _customerService.AddCustomer(customer);
+            return customer;
         }
 
       
         [HttpDelete("{id}")]
         public async Task<ActionResult<Customer>> DeleteCustomer(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-
-            return customer;
-        }
-
-        private bool CustomerExists(int id)
-        {
-            return _context.Customers.Any(e => e.Id == id);
+            await _customerService.DeleteCustomer(id);
+            return NoContent();
         }
     }
 }
